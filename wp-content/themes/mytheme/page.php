@@ -27,25 +27,17 @@ get_header();
         <div class="row">
             <div class="col-sm-4">
                 <?php get_sidebar(); ?>
+                <?php custom_registration_function(); ?>
+
             </div>
             <div class="col-sm-8">
                 <main id="main" class="site-main">
-                    <?php
-                    while ( have_posts() ) :
-                        the_post();
-
-                        get_template_part( 'template-parts/content', 'page' );
-
-                        if ( comments_open() || get_comments_number() ) :
-                            comments_template();
-                        endif;
-
-                    endwhile; // End of the loop.
-                    ?>
-
+                    <?php echo do_shortcode( '[wpb_newusers]' ); ?>
                 </main>
-            </div>
-        </div>
+            </div>  
+        </div>  
     </div>
+    <!-- e@F07^D(jxafRl6Xo&GHKpbU  -->
+    <!-- elena22@test.com -->
 <?php
 get_footer();

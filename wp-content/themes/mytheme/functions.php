@@ -136,15 +136,11 @@ function users_list_scripts() {
     wp_enqueue_script( 'users-list-respond', 'https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js' );
 
     wp_script_add_data( 'users-list-respond', 'conditional', 'It IE 9' );
-
-    wp_deregister_script('jquery');
-    
-    wp_register_script('jquery', get_template_directory_uri() . '/assets/js/jquery.js', array(), '', true );
-    
-    wp_enqueue_script('jquery');
     
     wp_enqueue_script( 'users-list-bootstrap-js', get_template_directory_uri() . '/assets/js/bootstrap.min.js', array(), '', true );
     
+    wp_enqueue_script('users-list-script', get_template_directory_uri() . '/assets/js/script.js', array(), '', true );
+   
     wp_enqueue_script( 'users-list-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 
 	wp_enqueue_script( 'users-list-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
@@ -186,3 +182,25 @@ function custom_login_css() {
     echo '<link rel="stylesheet" type="text/css" href="'. get_stylesheet_directory_uri('template_directory') .'/style_login.css" />';
 }
 add_action('login_head', 'custom_login_css');
+
+
+function wpb_recently_registered_users() {
+    global $wpdb;
+     
+    $recentusers = '<ul class="recently-user">';
+     
+    $usernames = $wpdb->get_results("SELECT user_nicename, user_url, user_email FROM $wpdb->users ORDER BY ID");
+     
+    foreach ($usernames as $username) {
+    if (!$username->user_url) :
+    $recentusers .= '<li>' .get_avatar($username->user_email) . $username->user_nicename . "</a></li>";
+    else :
+    $recentusers .= '<li>' .get_avatar($username->user_email).'<a href="'.$username->user_url.'">'.$username->user_nicename."</a></li>";
+    endif;
+    }
+    $recentusers .= '</ul>';
+     
+    return $recentusers;
+}
+
+add_shortcode('wpb_newusers', 'wpb_recently_registered_users');

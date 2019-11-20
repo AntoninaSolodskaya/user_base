@@ -1007,9 +1007,37 @@ header.entry-header {
     text-align: center;
 }
 
+.navbar {
+    margin-top: 50px;
+}
 .site-main {
     display: flex;
-    flex-flow: column-reverse;
+    flex-direction: column;
+    width: 70%;
+    margin: 0 auto;
+    padding-top: 30px;
+}
+
+ul.recently-user {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+
+.recently-user li{
+    list-style: none;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background: #ffffff;
+    box-shadow: 10px 12px 4px 0px rgba(0,0,0,0.37);
+    font-size: 20px;
+    padding: 10px;
+}
+
+img {
+    margin-right: 20px;
 }
 
 .container-block {
