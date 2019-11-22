@@ -22,6 +22,7 @@
  */
 
 get_header();
+
 ?>
     <div class="container wrapper">
         <div class="row">
@@ -37,7 +38,5 @@ get_header();
             </div>  
         </div>  
     </div>
-    <!-- e@F07^D(jxafRl6Xo&GHKpbU  -->
-    <!-- elena22@test.com -->
 <?php
 get_footer();

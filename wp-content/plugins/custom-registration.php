@@ -58,6 +58,7 @@ echo '
 ';
 
 echo '
+   
     <form action="' . $_SERVER['REQUEST_URI'] . '" method="post">
         <div class="input-block">
             <label for="username">Username <strong>*</strong></label>
