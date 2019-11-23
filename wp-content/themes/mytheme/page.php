@@ -29,14 +29,12 @@ get_header();
             <div class="col-sm-4">
                 <?php get_sidebar(); ?>
                 <?php custom_registration_function(); ?>
-
             </div>
             <div class="col-sm-8">
                 <main id="main" class="site-main">
-                    <?php echo do_shortcode( '[wpb_newusers]' ); ?>
+                    <?php echo do_shortcode( '[wpb_newusers]' ); ?> 
                 </main>
             </div>  
         </div>  
     </div>
-<?php
-get_footer();
+<?= get_footer();?>

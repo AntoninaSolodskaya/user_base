@@ -998,9 +998,10 @@ a:visited {
     font-size: 20px;
 }
 a {
-    color: #337ab7;
+    color: #98D1EF;
     text-decoration: none;
     font-size: 20px;
+    outline: none;
 }
 
 header.entry-header {
@@ -1058,4 +1059,49 @@ section#meta-3 {
 section#meta-3 ul {
     padding: 0;
     margin: 0;
+}
+
+
+/*--------------------------------------------------------------
+## Pagination
+--------------------------------------------------------------*/
+
+.clearfix {
+    padding-bottom: 30px;
+}
+
+.page-numbers {
+    margin: 10px;
+    padding: 10px;
+    position: relative;
+    transition: all .3s cubic-bezier(.2, 0, 0, 1);
+    z-index: 1;
+}
+ .page-numbers::after {
+    content: '';
+    display: block;
+    height: 1px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: #ffffff;
+    transition: all .3s cubic-bezier(.2, 0, 0, 1);
+    transform-origin: bottom center;
+    z-index: -1;
+}
+ 
+a.page-numbers:hover {
+    color: #98D1EF!important;
+    text-decoration: none!important; 
+}
+a.page-numbers:hover::after {
+    right: 0;
+    left: 0;
+    height: 100%;
+}
+
+.current {
+    font-size: 20px;
+    color: #98D1EF;
 }
