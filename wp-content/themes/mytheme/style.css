@@ -1009,14 +1009,14 @@ header.entry-header {
 }
 
 .navbar {
-    margin-top: 50px;
+    margin-top: 30px;
 }
 .site-main {
     display: flex;
     flex-direction: column;
-    width: 70%;
+    width: 50%;
     margin: 0 auto;
-    padding-top: 30px;
+    padding: 30px;
 }
 
 ul.recently-user {

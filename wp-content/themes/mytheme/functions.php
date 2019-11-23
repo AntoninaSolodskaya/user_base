@@ -226,7 +226,7 @@ function wpb_recently_registered_users() {
     if (!$username->user_url) :
     $recentusers .= '<li>' . get_avatar($username->user_email) . $username->user_nicename . "</a></li>";
     else :
-    $recentusers .= '<li>' . get_avatar($username->user_email).'<a href="'.$username->user_url .'">' . $username->user_nicename . "</a></li>";
+    $recentusers .= '<li>' . get_avatar($username->user_email) . '<a href="' . $username->user_url . '">' . $username->user_nicename . "</a></li>";
     endif;
     }
     $recentusers .= '</ul>';
