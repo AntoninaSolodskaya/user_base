@@ -1013,7 +1013,7 @@ header.entry-header {
 }
 .site-main {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     width: 50%;
     margin: 0 auto;
     padding: 30px;
@@ -1048,26 +1048,12 @@ img {
     margin-bottom: 50px;
 }
 
-.wp-block-group p, blockquote {
-    color: #ffffff;
-}
-
-section#meta-3 {
-   text-align: center;
-}
-
-section#meta-3 ul {
-    padding: 0;
-    margin: 0;
-}
-
-
 /*--------------------------------------------------------------
 ## Pagination
 --------------------------------------------------------------*/
 
 .clearfix {
-    padding-bottom: 30px;
+    padding: 30px;
 }
 
 .page-numbers {
