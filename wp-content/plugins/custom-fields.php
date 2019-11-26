@@ -6,43 +6,14 @@ Version: 1.0
 */
 add_action('show_user_profile', 'my_profile_new_fields_add');
 add_action('edit_user_profile', 'my_profile_new_fields_add');
-add_action('personal_options_update', 'my_profile_new_fields_add');
 
 add_action('personal_options_update', 'my_profile_new_fields_update');
 add_action('edit_user_profile_update', 'my_profile_new_fields_update');
 
-add_action('personal_options_update', 'my_profile_new_fields_encrypt');
-add_action('edit_user_profile_update', 'my_profile_new_fields_encrypt');
-
+add_action('user_profile_update_errors', 'validate_user_meta');
 
 function my_profile_new_fields_add(){ 
     global $user_ID;
-    // $pass = md5('australia');
-    $config = array(
-        "digest_alg" => "sha512",
-        "private_key_bits" => 4096,
-        "private_key_type" => OPENSSL_KEYTYPE_RSA,
-    );
-    
-    function decrypt($string) {
-        
-        $res = openssl_pkey_new($config);
-        
-        openssl_pkey_export($res, $private_key);
-        
-        $public_key = openssl_pkey_get_details($res);
-        $public_key = $public_key["key"];
-        // $string = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, base64_decode($string), MCRYPT_MODE_ECB));
-        // return $string;
-        openssl_private_decrypt($string, $decrypted, $private_key);
-        return $decrypted;
-    }
-
-        $phone = decrypt(get_user_meta( $user_ID, 'user_phone', 1 ));
-        echo "Phone: " . $phone;
-        var_dump(get_user_meta( $user_ID, 'user_phone', 1 ));
-        $adress = decrypt(get_user_meta( $user_ID, 'user_adress', 1 ));
-    
 ?>
 <style>
     input{
@@ -52,13 +23,13 @@ function my_profile_new_fields_add(){
 
 <h3>Additional data</h3>
 <p>Your Phone 
-    <label>
-        <input type="text" name="custom_input[user_phone]" value="<?php echo $phone;?>">
+    <label for="phone"><?php esc_html_e( 'Phone number', 'crf' ); ?>>
+        <input type="number" id="phone" name="custom_input[user_phone]" value="<?php echo get_user_meta( $user_ID, 'user_phone', 1 );?>">
     </label>
 </p>
 <p>Your Adress
-    <label>
-        <input type="text" name="custom_input[user_adress]" value="<?php echo $adress; ?>">
+    <label for="adress"><?php esc_html_e( 'Adress field', 'crf' ); ?>>
+        <input type="text" id="adress" name="custom_input[user_adress]" value="<?php echo get_user_meta( $user_ID, 'user_adress', 1 ); ?>">
     </label>
 </p>
 <p>Gender<?php $gender = get_user_meta($user_ID, 'gender_user', 1); ?>
@@ -86,44 +57,30 @@ function my_profile_new_fields_add(){
 }
 
 function my_profile_new_fields_update() {
-global $user_ID;
-
+    global $user_ID;    
     foreach($_POST['custom'] as $key => $val)
     {
         $val= empty($val) ? '' : $val;
         update_user_meta($user_ID, $key, $val);
     } 
+    foreach($_POST['custom_input'] as $key => $val)
+    {   
+        update_user_meta( $user_ID, $key, $val );
+    } 
 }
 
-function my_profile_new_fields_encrypt() {
-    global $user_ID;
-    // $pass = md5('australia');
+function validate_user_meta($errors){
+    $adress = filter_var(trim($_POST['custom_input']['user_adress']), FILTER_SANITIZE_STRING);
+    $phone = filter_var(trim($_POST['custom_input']['user_phone']), FILTER_SANITIZE_STRING);
 
-    $config = array(
-        "digest_alg" => "sha512",
-        "private_key_bits" => 4096,
-        "private_key_type" => OPENSSL_KEYTYPE_RSA,
-    );
-    
-    function encrypt($string) {
-        $res = openssl_pkey_new($config);
-        
-        $public_key = openssl_pkey_get_details($res);
-        $public_key = $public_key["key"];
-        openssl_public_encrypt($string, $encrypted, $public_key);
-        // $encrypted_hex = bin2hex($encrypted);
-        echo "Encrypted: " . $encrypted;
-        return $encrypted;
+    if ( mb_strlen($adress) < 3 || mb_strlen($adress) > 30 ) {
+        $errors->add( 'adress_field_error', __( '<strong style="color:red;">ERROR</strong>: Invalid adress length.', 'crf' ) );
     }
-    // function encrypt($string, $key) {
-    //     $string = rtrim(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $string, MCRYPT_MODE_ECB)));
-    //     return $string;
-    // }
-    foreach($_POST['custom_input'] as $key => $val)
-    {
-        update_user_meta( $user_ID, $key, encrypt($val) );
-    } 
 
+    if ( mb_strlen($phone) < 6 || mb_strlen($phone) > 20 ) {
+        $errors->add( 'phone_number_error', __( '<strong style="color:red;">ERROR</strong>: Invalid phone length.', 'crf' ) );
+    }
+    
 }
 
 ?>
