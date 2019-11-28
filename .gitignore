@@ -38,6 +38,7 @@ Thumbs.db
 *.o
 *.so
 
+
 # ignore packaged files
 *.7z
 *.dmg
@@ -47,7 +48,7 @@ Thumbs.db
 *.rar
 *.tar
 *.zip
-
+*.pem
 # -------------------------
 # BEGIN Whitelisted Files
 # -------------------------

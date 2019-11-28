@@ -1008,9 +1008,13 @@ header.entry-header {
     text-align: center;
 }
 
+/*--------------------------------------------------------------
+## Home Page
+--------------------------------------------------------------*/
 .navbar {
     margin-top: 30px;
 }
+
 .site-main {
     display: flex;
     flex-direction: column-reverse;
@@ -1046,6 +1050,23 @@ img {
     flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 50px;
+}
+
+
+@media screen and (max-width: 992px) {
+    .site-main{
+        width: 70%;
+        padding: 0;
+    }
+}
+  @media screen and (max-width: 600px) {
+    .container.wrapper {
+        padding: 0px 25px;
+    }
+    .site-main{
+        width: 100%;
+        padding: 0;
+    }
 }
 
 /*--------------------------------------------------------------
@@ -1090,4 +1111,12 @@ a.page-numbers:hover::after {
 .current {
     font-size: 20px;
     color: #98D1EF;
+}
+
+.color-opt {
+    display: inline-block;
+    width: 40%;
+    padding: 5px 15px 15px;
+    box-sizing: border-box;
+    margin-bottom: 3px;
 }
