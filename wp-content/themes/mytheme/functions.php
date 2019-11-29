@@ -194,10 +194,13 @@ function wpb_recently_registered_users() {
     $number = 4;
     $paged = (get_query_var('page')) ? get_query_var('page') : 1;
     $offset = ($paged - 1) * $number;
+    
+    $users = get_users(array('role' => 'subscriber')); 
 
-    $users = get_users();  
     $total_users = count($users);
+   
     $query = get_users('&offset=' . $offset . '&number=' . $number);
+    
     $total_pages = intval($total_users / $number) + 1;
 
     if ($total_users > $total_query) {  
@@ -223,14 +226,12 @@ function wpb_recently_registered_users() {
     $recentusers = '<ul class="recently-user">';
     
     foreach ($query as $username) {
-    if (!$username->user_url) :
-    $recentusers .= '<li>' . get_avatar($username->user_email) . $username->user_nicename . "</a></li>";
-    else :
-    $recentusers .= '<li>' . get_avatar($username->user_email) . '<a href="' . $username->user_url . '">' . $username->user_nicename . "</a></li>";
-    endif;
+    if (!$username->user_url) 
+    
+    $recentusers .= '<li>' . get_avatar($username->user_email) .  $username->user_nicename . '</li>';
     }
     $recentusers .= '</ul>';
-     
+       
     return $recentusers;
 
 }

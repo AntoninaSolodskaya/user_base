@@ -11,18 +11,17 @@ add_action('edit_user_profile', 'my_profile_new_fields_add');
 add_action('personal_options_update', 'my_profile_new_fields_update');
 add_action('edit_user_profile_update', 'my_profile_new_fields_update');
 
-add_action('user_profile_update_errors', 'validate_user_meta');
-
 function my_profile_new_fields_add(){ 
-global $user_ID;
-$adress = get_user_meta( $user_ID, 'user_adress', 1 );
-$phone = get_user_meta( $user_ID, 'user_phone', 1 );
-$gender = get_user_meta($user_ID, 'gender_user', 1);
-$status = get_user_meta($user_ID, 'status_user', 1);
+$userID = get_current_user_id();
+$adress = get_user_meta( $userID, 'user_adress', 1 );
+$phone = get_user_meta( $userID, 'user_phone', 1 );
+$gender = get_user_meta( $userID, 'gender_user', 1 );
+$status = get_user_meta( $userID, 'status_user', 1 );
 
 $file = fopen('file:///D:/keys/privkey.pem', 'r');
 $key = fread($file, 8192);
 fclose($file);
+
 openssl_private_decrypt(base64_decode($phone), $decrypt, $key);
 openssl_private_decrypt(base64_decode($adress), $decrypt_adress, $key);
 openssl_private_decrypt(base64_decode($gender), $decrypt_gender, $key);
@@ -77,31 +76,18 @@ openssl_private_decrypt(base64_decode($status), $decrypt_status, $key);
 }
 function my_profile_new_fields_update() {
 
-global $user_ID;
-
 $file = fopen('file:///D:/keys/pubkey.pem', 'r');
 $pubkey = fread($file, 8192);
 fclose($file);
 
 $pk  = openssl_get_publickey($pubkey);
+$userID = get_current_user_id();
 
 foreach($_POST['custom'] as $key => $val)
-    {
+    { 
         openssl_public_encrypt($val, $encrypted, $pk);
-        update_user_meta($user_ID, $key, chunk_split(base64_encode($encrypted) ) );
+        update_user_meta($userID, $key, chunk_split(base64_encode($encrypted) ) );
     } 
 }
 
-function validate_user_meta($errors){
-    $adress = filter_var(trim($_POST['custom']['user_adress']), FILTER_SANITIZE_STRING);
-    $phone = filter_var(trim($_POST['custom']['user_phone']), FILTER_SANITIZE_STRING);
-
-    if ( mb_strlen($adress) < 3 || mb_strlen($adress) > 30 ) {
-        $errors->add( 'adress_field_error', __( '<strong style="color:red;">ERROR</strong>: Invalid adress length.', 'crf' ) );
-    }
-
-    if ( mb_strlen($phone) < 6 || mb_strlen($phone) > 20 ) {
-        $errors->add( 'phone_number_error', __( '<strong style="color:red;">ERROR</strong>: Invalid phone length.', 'crf' ) );
-    }
-}
 ?>
